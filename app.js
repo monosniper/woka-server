@@ -4,7 +4,7 @@ const logger = require('morgan');
 const cors = require("cors");
 const indexRouter = require('./routes/index');
 const app = express();
-const db = require("./db");
+const {sequelize, connection} = require("./db");
 require("./models");
 require('dotenv').config()
 
@@ -25,11 +25,14 @@ app.use(express.static('uploads'));
 
 app.use('/api', indexRouter);
 
-db.sync({ force: false })
+// sequelize.sync({ force: true })
+sequelize.sync({ force: false })
     .then(() => {
-        app.listen(process.env.API_PORT, () => {
-            console.log(`Server is running on port ${process.env.API_PORT}.`);
-        });
+        connection.connect(() => {
+            app.listen(process.env.API_PORT, () => {
+                console.log(`Server is running on port ${process.env.API_PORT}.`);
+            });
+        })
     })
     .catch((err) => {
         console.log("Failed to sync db: " + err.message);

@@ -1,4 +1,5 @@
 const Sequelize = require('sequelize')
+const mysql = require("mysql");
 
 // const sequelize = new Sequelize(
 //     'wokasitedonate',
@@ -20,4 +21,12 @@ const sequelize = new Sequelize(
     },
 );
 
-module.exports = sequelize
+// Bans DB
+const connection = mysql.createConnection({
+    host: '193.164.17.17',
+    user: 'wokamc',
+    password: 'mD4gU8rBtY3bFdD3sOdJ9oV4lU5n2fB4f2kU0m3l',
+    database: 'w-litebans'
+})
+
+module.exports = {sequelize, connection}

@@ -1,4 +1,4 @@
-const db = require('../db')
+const {sequelize} = require('../db')
 const {DataTypes, DATE, Model} = require('sequelize')
 
 class Tag extends Model {}
@@ -23,7 +23,7 @@ const model = Tag.init({
     createdAt: { type: DATE, field: 'created_at' },
     updatedAt: { type: DATE, field: 'updated_at' },
 }, {
-    sequelize: db,
+    sequelize,
     tableName: 'tags',
     timestamps: true,
     underscored: true
