@@ -1,5 +1,6 @@
 const Sequelize = require('sequelize')
 const mysql = require("mysql");
+require('dotenv').config()
 
 const sequelize = new Sequelize(
     process.env.DB_USERNAME,
