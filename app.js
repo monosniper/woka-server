@@ -13,7 +13,7 @@ const corsOptions = {
         process.env.ADMIN_ORIGIN,
         process.env.SITE_ORIGIN,
     ],
-    exposedHeaders: ['Content-Range']
+    exposedHeaders: ['Content-Range', 'X-Total-Count']
 };
 
 // app.use(cors(corsOptions));

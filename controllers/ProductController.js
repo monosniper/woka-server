@@ -35,6 +35,7 @@ class ProductController {
                 const range = req.headers.range.replace('=', ' ') + '/' + products.length;
 
                 res.set('Content-Range', range)
+                res.set('X-Total-Count', products.length)
             }
 
             return res.json(products.map(p => new ProductDto(p)));

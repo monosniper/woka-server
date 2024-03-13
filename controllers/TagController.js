@@ -33,6 +33,7 @@ class TagController {
                 const range = req.headers.range.replace('=', ' ') + '/' + tags.length;
 
                 res.set('Content-Range', range)
+                res.set('X-Total-Count', tags.length)
             }
 
             return res.json(tags);

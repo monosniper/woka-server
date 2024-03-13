@@ -37,6 +37,7 @@ class BuyController {
                 const range = req.headers.range.replace('=', ' ') + '/' + buys.length;
 
                 res.set('Content-Range', range)
+                res.set('X-Total-Count', buys.length)
             }
 
             return res.json(buys);
