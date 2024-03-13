@@ -29,9 +29,12 @@ class PromocodeController {
 
             const data = await PromocodeService.getAll(options);
 
-            const range = req.headers.range.replace('=', ' ') + '/' + data.length;
+            if(req.headers.range) {
+                const range = req.headers.range.replace('=', ' ') + '/' + data.length;
 
-            res.set('Content-Range', range)
+                res.set('Content-Range', range)
+            }
+
             res.set('X-Total-Count', data.length)
 
             return res.json(data.map(i => new PromocodeDto(i)));
