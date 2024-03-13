@@ -1,4 +1,5 @@
 const Promocode = require('../models/promocode')
+const {Op} = require("sequelize");
 
 class PromocodeService {
     async getAll(options) {
@@ -21,6 +22,10 @@ class PromocodeService {
 
     async delete(id) {
         return Promocode.destroy({where: {id}});
+    }
+
+    async check(name) {
+        return await Promocode.findOne({where: {name, count: {[Op.gt]: 0}}});
     }
 
     async update(id, data) {

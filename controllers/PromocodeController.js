@@ -80,6 +80,18 @@ class PromocodeController {
             next(e);
         }
     }
+
+    async check(req, res, next) {
+        try {
+            const item = await PromocodeService.check(req.body.promo);
+
+            if(item) return res.json({success: true, data: new PromocodeDto(item)});
+
+            return res.json({success: false});
+        } catch (e) {
+            next(e);
+        }
+    }
 }
 
 module.exports = new PromocodeController();

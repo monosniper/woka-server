@@ -18,6 +18,7 @@ router.get('/promocodes/:id', PromocodeController.getOne);
 router.post('/promocodes', PromocodeController.create);
 router.delete('/promocodes/:id', PromocodeController.delete);
 router.put('/promocodes/:id', PromocodeController.update);
+router.post('/check-promo', PromocodeController.check);
 
 router.get('/tags', TagController.getAll);
 router.get('/tags/:id', TagController.getOne);
