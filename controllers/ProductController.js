@@ -31,12 +31,10 @@ class ProductController {
 
             const products = await ProductService.getAll(options);
 
-            if(req.headers.range) {
-                const range = req.headers.range.replace('=', ' ') + '/' + products.length;
+            const range = req.headers.range.replace('=', ' ') + '/' + products.length;
 
-                res.set('Content-Range', range)
-                res.set('X-Total-Count', products.length)
-            }
+            res.set('Content-Range', range)
+            res.set('X-Total-Count', products.length)
 
             return res.json(products.map(p => new ProductDto(p)));
         } catch (e) {

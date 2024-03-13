@@ -29,12 +29,10 @@ class TagController {
 
             const tags = await TagService.getAll(options);
 
-            if(req.headers.range) {
-                const range = req.headers.range.replace('=', ' ') + '/' + tags.length;
+            const range = req.headers.range.replace('=', ' ') + '/' + tags.length;
 
-                res.set('Content-Range', range)
-                res.set('X-Total-Count', tags.length)
-            }
+            res.set('Content-Range', range)
+            res.set('X-Total-Count', tags.length)
 
             return res.json(tags);
         } catch (e) {
