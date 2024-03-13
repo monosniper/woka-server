@@ -59,7 +59,7 @@ class ProductController {
             const product = await ProductService.create(req.body);
 
             if(req.body.image) {
-                const fileName = await UploadService.save(req.body.image, 'products', product.id)
+                const fileName = await UploadService.save(req.body.image, 'products', product.id, product.image)
                 product.image = '/products/'+fileName;
                 await product.save()
             }

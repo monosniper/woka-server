@@ -1,15 +1,19 @@
 const fs = require('fs');
 
 class UploadService {
-    async save(file, space, id) {
-	const title = file.title.split('.');
-	const fileName = id+'.'+title[title.length-1];
-	const path = __dirname + '/../uploads/'+space+'/'+fileName;
-	const image = file.base64.replace(/^data:([A-Za-z-+/]+);base64,/, '');
+    async save(file, space, id, old=false) {
+		if(old) {
+			fs.unlink(__dirname + '/../uploads/' + old)
+		}
 
-	fs.writeFileSync(path, image,  {encoding: 'base64'});
+        const title = file.title.split('.');
+        const fileName = id + '.' + title[title.length - 1];
+        const path = __dirname + '/../uploads/' + space + '/' + fileName;
+        const image = file.base64.replace(/^data:([A-Za-z-+/]+);base64,/, '');
 
-	return fileName;
+        fs.writeFileSync(path, image, {encoding: 'base64'});
+
+        return fileName;
     }
 }
 
