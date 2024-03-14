@@ -25,7 +25,17 @@ class PromocodeService {
     }
 
     async check(name) {
-        return await Promocode.findOne({where: {name, count: {[Op.gt]: 0}}});
+        return await Promocode.findOne({
+            where: {
+                name,
+                count: {
+                    $or: [
+                        {[Op.gt]: 0},
+                        {[Op.eq]: null},
+                    ]
+                }
+            }
+        });
     }
 
     async update(id, data) {

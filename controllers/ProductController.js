@@ -1,7 +1,7 @@
 const ProductService = require('../services/ProductService')
 const UploadService = require('../services/UploadService')
 const ProductDto = require('../dtos/ProductDto')
-const {Op} = require("sequelize");
+const {Op, literal} = require("sequelize");
 
 class ProductController {
     async getAll(req, res, next) {
@@ -27,6 +27,8 @@ class ProductController {
 
             if(req.query.sort) {
                 options.order = [JSON.parse(req.query.sort)]
+            } else {
+                options.order = literal('max(priority) DESC')
             }
 
             const products = await ProductService.getAll(options);
