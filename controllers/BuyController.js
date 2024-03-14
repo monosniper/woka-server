@@ -66,7 +66,7 @@ class BuyController {
             if(promo) {
                 data.promo = promo
             }
-            console.log(products)
+
             const buy = await BuyService.create(data, products)
 
             await buy.setProducts(products.map(({id}) => id))

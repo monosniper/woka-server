@@ -23,6 +23,9 @@ class RCONService {
         })
 
         if(!this.black_list.includes(name)) {
+            console.log('not includes')
+            console.log(products)
+
             products.forEach(async ({id, count, expiry}) => {
                 const product = await ProductService.getOne(id)
 
