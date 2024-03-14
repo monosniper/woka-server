@@ -29,7 +29,7 @@ class PromocodeService {
             where: {
                 name,
                 count: {
-                    $or: [
+                    [Op.or]: [
                         {[Op.gt]: 0},
                         {[Op.eq]: null},
                     ]
