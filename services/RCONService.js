@@ -1,5 +1,5 @@
 const ProductService = require('../services/ProductService')
-import { Rcon } from "rcon-client"
+const { Rcon } = require('rcon-client')
 require('dotenv').config()
 
 class RCONService {
