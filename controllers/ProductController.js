@@ -51,7 +51,8 @@ class ProductController {
     async getOne(req, res, next) {
         try {
             const product = await ProductService.getOne(req.params.id);
-            return res.json(new ProductDto(product));
+            return res.json(product);
+            // return res.json(new ProductDto(product));
         } catch (e) {
             next(e);
         }

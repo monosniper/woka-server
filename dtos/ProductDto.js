@@ -13,7 +13,7 @@ module.exports = class ProductDto {
     mode;
     expiry;
     TagId;
-    // Tag;
+    Tag;
     proiority;
     created_at;
 
@@ -37,7 +37,7 @@ module.exports = class ProductDto {
         this.mode = model.mode;
         this.expiry = model.expiry;
         this.TagId = model.TagId;
-        // this.Tag = model.Tag;
+        this.Tag = model.Tag;
         this.createdAt = model.createdAt;
     }
 }
