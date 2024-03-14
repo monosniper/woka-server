@@ -1,9 +1,29 @@
 const Product = require('../models/product')
 const Tag = require("../models/tag");
 
+const fields = [
+    'title',
+    'description',
+    'priority',
+    'price',
+    'price_1',
+    'price_3',
+    'bonus',
+    'bonus_1',
+    'bonus_3',
+    'discount',
+    'expiry',
+    'TagId',
+    'rcon_1',
+    'rcon_3',
+    'rcon_forever',
+    'rcon',
+    'mode',
+]
+
 class ProductService {
     async getAll(options) {
-        return Product.findAll(options);
+        return Product.findAll({...options, include: ['Tag']});
     }
 
     async getOne(id) {
@@ -11,25 +31,7 @@ class ProductService {
     }
 
     async create(data) {
-        return await Product.create(data, {
-            fields: [
-                'title',
-                'description',
-                'price',
-                'price_1',
-                'price_3',
-				'bonus',
-				'bonus_1',
-				'bonus_3',
-				'discount',
-                'expiry',
-                'TagId',
-                'rcon_1',
-                'rcon_3',
-                'rcon_forever',
-                'rcon',
-            ]
-        });
+        return await Product.create(data, {fields});
     }
 
     async delete(id) {
@@ -37,25 +39,7 @@ class ProductService {
     }
 
     async update(id, data) {
-        await Product.update(data, {
-            where: {id}, fields: [
-                'title',
-                'description',
-                'price',
-                'price_1',
-                'price_3',
-                'bonus',
-                'bonus_1',
-                'bonus_3',
-                'discount',
-                'expiry',
-                'TagId',
-                'rcon_1',
-                'rcon_3',
-                'rcon_forever',
-                'rcon',
-            ]
-        });
+        await Product.update(data, {where: {id}, fields});
 
         return await Product.findByPk(id);
     }

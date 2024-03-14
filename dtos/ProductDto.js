@@ -10,8 +10,10 @@ module.exports = class ProductDto {
     discount;
     description;
     image;
+    mode;
     expiry;
     TagId;
+    proiority;
     created_at;
 
     constructor(model) {
@@ -26,10 +28,12 @@ module.exports = class ProductDto {
         this.rcon = model.rcon;
         this.rcon_1 = model.rcon_1;
         this.rcon_3 = model.rcon_3;
+        this.proiority = model.proiority;
         this.rcon_forever = model.rcon_forever;
         this.discount = model.discount;
         this.description = model.description;
         this.image = model.image;
+        this.mode = model.mode;
         this.expiry = model.expiry;
         this.TagId = model.TagId;
         this.createdAt = model.createdAt;

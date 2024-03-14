@@ -17,6 +17,9 @@ const model = Product.init({
         type: DataTypes.STRING,
         allowNull: false
     },
+    mode: {
+        type: DataTypes.ENUM('ANARCHY-M', 'GRIEF-M'),
+    },
     description: {
         type: DataTypes.TEXT,
     },
@@ -36,6 +39,9 @@ const model = Product.init({
         type: DataTypes.INTEGER,
     },
     bonus: {
+        type: DataTypes.INTEGER,
+    },
+    priority: {
         type: DataTypes.INTEGER,
     },
     discount: {

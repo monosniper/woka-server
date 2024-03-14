@@ -3,14 +3,6 @@ const UploadService = require('../services/UploadService')
 const ProductDto = require('../dtos/ProductDto')
 const {Op} = require("sequelize");
 
-function shuffleArray(array) {
-    for (let i = array.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [array[i], array[j]] = [array[j], array[i]];
-    }
-    return array;
-}
-
 class ProductController {
     async getAll(req, res, next) {
         try {
@@ -47,7 +39,7 @@ class ProductController {
 
             res.set('X-Total-Count', products.length)
 
-            return res.json(shuffleArray(products).map(p => new ProductDto(p)));
+            return res.json(products.map(p => new ProductDto(p)));
         } catch (e) {
             next(e);
         }

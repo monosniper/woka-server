@@ -5,6 +5,7 @@ const PromocodeController = require('../controllers/PromocodeController')
 const TagController = require('../controllers/TagController')
 const BuyController = require('../controllers/BuyController')
 const PunishmentController = require('../controllers/PunishmentController')
+const HistoryController = require('../controllers/HistoryController')
 const util = require('minecraft-server-util')
 
 router.get('/products', ProductController.getAll);
@@ -32,6 +33,9 @@ router.post('/pay', BuyController.pay);
 router.delete('/buys/:id', BuyController.delete)
 
 router.get('/punishments', PunishmentController.getAll);
+
+router.get('/history', HistoryController.getAll);
+router.post('/history', HistoryController.create);
 
 router.get('/test', (req, res, next) => {
     const options = {
