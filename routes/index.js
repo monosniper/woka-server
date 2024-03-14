@@ -38,17 +38,17 @@ router.get('/punishments', PunishmentController.getAll);
 router.get('/history', HistoryController.getAll);
 router.post('/history', HistoryController.create)
 
-router.get('/test', async (req,res,next) => {
-    const rcon = await Rcon.connect({
-        host: '202.181.188.208', port: 22744, password: 'sDc1Drl02ZDXNseTE76WJIE4wbAmv5sD'
-    })
-
-    await rcon.send('lp user SmileClock parent clear')
-    await rcon.send('lp user SmileClock parent clear')
-    await rcon.send('points give SmileClock 30')
-
-    await rcon.end()
-});
+// router.get('/test', async (req,res,next) => {
+//     const rcon = await Rcon.connect({
+//         host: '202.181.188.208', port: 22744, password: 'sDc1Drl02ZDXNseTE76WJIE4wbAmv5sD'
+//     })
+//
+//     await rcon.send('lp user SmileClock parent clear')
+//     await rcon.send('lp user SmileClock parent clear')
+//     await rcon.send('points give SmileClock 30')
+//
+//     await rcon.end()
+// });
 
 router.get('/test', (req, res, next) => {
     const options = {
