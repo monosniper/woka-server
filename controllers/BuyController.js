@@ -60,13 +60,13 @@ class BuyController {
         try {
             const {name, email, promo, amount, products} = req.body
 
-            const data = {name, email, amount, products}
+            const data = {name, email, amount}
 
             if(promo) {
                 data.promo = promo
             }
-
-            const buy = await BuyService.create(data)
+            console.log(products)
+            const buy = await BuyService.create(data, products)
 
             await buy.setProducts(products)
 
