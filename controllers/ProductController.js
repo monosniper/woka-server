@@ -42,7 +42,8 @@ class ProductController {
 
             res.set('X-Total-Count', products.length)
 
-            return res.json(products.map(p => new ProductDto(p)));
+            return res.json(products);
+            // return res.json(products.map(p => new ProductDto(p)));
         } catch (e) {
             next(e);
         }
@@ -52,7 +53,6 @@ class ProductController {
         try {
             const product = await ProductService.getOne(req.params.id);
             return res.json(product);
-            // return res.json(new ProductDto(product));
         } catch (e) {
             next(e);
         }
