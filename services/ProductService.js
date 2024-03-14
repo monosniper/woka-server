@@ -7,7 +7,7 @@ class ProductService {
     }
 
     async getOne(id) {
-        return Product.findByPk(id, {include: [Tag]});
+        return Product.findByPk(id, {include: ['Tag']});
     }
 
     async create(data) {
