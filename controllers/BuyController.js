@@ -60,7 +60,7 @@ class BuyController {
         try {
             const {name, email, promo, amount, products} = req.body
 
-            const data = {name, email, amount}
+            const data = {name, email, amount, products}
 
             if(promo) {
                 data.promo = promo
