@@ -68,7 +68,7 @@ class BuyController {
             console.log(products)
             const buy = await BuyService.create(data, products)
 
-            await buy.setProducts(products)
+            await buy.setProducts(products.map(({id}) => id))
 
             return res.json({url: "https://hightcore.org"})
         } catch (e) {
