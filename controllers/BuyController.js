@@ -14,7 +14,7 @@ class BuyController {
                 if (JSON.parse(req.query.filter).q) {
                     filters[Op.or] = [
                         {name: {[Op.substring]: JSON.parse(req.query.filter).q}},
-                        {icon: {[Op.substring]: JSON.parse(req.query.filter).q}},
+                        {email: {[Op.substring]: JSON.parse(req.query.filter).q}},
                     ]
                 }
             }
@@ -56,11 +56,21 @@ class BuyController {
         }
     }
 
-    async create(req, res, next) {
+    async pay(req, res, next) {
         try {
-            const tag = await BuyService.create(req.body);
+            const {name, email, promo, amount, products} = req.body
 
-            return res.json(tag);
+            const data = {name, email, amount}
+
+            if(promo) {
+                data.promo = promo
+            }
+
+            const buy = await BuyService.create(data)
+
+            await buy.setProducts(products)
+
+            return res.json({url: "https://hightcore.org"})
         } catch (e) {
             next(e);
         }

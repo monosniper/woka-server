@@ -6,7 +6,6 @@ const { Model } = require("sequelize");
 const {sequelize} = require("../db");
 
 Product.belongsTo(Tag, { as: 'Tag' })
-Buy.belongsTo(Product, { as: 'Product' })
 
 class ProductPromocode extends Model {}
 const ProductPromocodeThrough = ProductPromocode.init({}, {
@@ -14,5 +13,12 @@ const ProductPromocodeThrough = ProductPromocode.init({}, {
     tableName: 'product_promocodes'
 });
 
+class BuyProduct extends Model {}
+const BuyProductThrough = BuyProduct.init({}, {
+    sequelize,
+    tableName: 'buy_products'
+});
+
 Promocode.belongsToMany(Product, { through: ProductPromocodeThrough })
 Product.belongsToMany(Promocode, { through: ProductPromocodeThrough })
+Buy.belongsToMany(Product, { through: BuyProductThrough })

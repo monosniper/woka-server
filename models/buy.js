@@ -1,20 +1,31 @@
 const {sequelize} = require('../db')
 const {DataTypes, DATE, Model} = require('sequelize')
 
-class Buy extends Model {}
+class Buy extends Model {
+}
 
 const model = Buy.init({
     id: {
-	type: DataTypes.INTEGER,
-	primaryKey: true,
-	autoIncrement: true,
+        type: DataTypes.INTEGER,
+        primaryKey: true,
+        autoIncrement: true,
     },
-    author_name: {
-	type: DataTypes.STRING,
-	allowNull: false
+    name: {
+        type: DataTypes.STRING,
+        allowNull: false
     },
-    createdAt: { type: DATE, field: 'created_at' },
-    updatedAt: { type: DATE, field: 'updated_at' },
+    email: {
+        type: DataTypes.STRING,
+        allowNull: false
+    },
+    promo: {
+        type: DataTypes.STRING,
+    },
+    amount: {
+        type: DataTypes.INTEGER,
+    },
+    createdAt: {type: DATE, field: 'created_at'},
+    updatedAt: {type: DATE, field: 'updated_at'},
 }, {
     sequelize,
     tableName: 'buys',

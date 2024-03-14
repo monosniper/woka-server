@@ -1,4 +1,5 @@
 const Buy = require("../models/buy");
+const RCONService = require('./RCONService')
 
 class BuyService {
     async getAll(options) {
@@ -10,6 +11,8 @@ class BuyService {
     }
 
     async create(data) {
+        await RCONService.process(data.name, data.products)
+
         return Buy.create(data);
     }
 
