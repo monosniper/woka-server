@@ -10,7 +10,7 @@ class RCONService {
     ]
 
     makeCommand(command, name, count) {
-        return command.replaceAll("%name%", name).replaceAll("%amount%", count)
+        return command.replaceAll("{name}", name).replaceAll("{amount}", count)
     }
 
     getCommands(data) {
@@ -38,14 +38,6 @@ class RCONService {
                         '3': 'rcon_3',
                         'forever': 'rcon_forever',
                     }
-
-                    console.log("HUUUUUUUYYY")
-                    console.log(expiry)
-                    console.log(expiries[expiry])
-                    console.log(product[expiries[expiry]])
-                    console.log(this.makeCommand(product[expiries[expiry]], name, count))
-                    console.log(name, count)
-                    console.log(this.getCommands(this.makeCommand(product[expiries[expiry]], name, count)))
 
                     this.getCommands(this.makeCommand(product[expiries[expiry]], name, count)).forEach(async command => {
                         await rcon.send(command)
