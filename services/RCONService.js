@@ -40,7 +40,7 @@ class RCONService {
                     }
 
                     console.log("HUUUUUUUYYY")
-                    
+
                     this.getCommands(this.makeCommand(product[expiries[expiry]], name, count)).forEach(async command => {
                         console.log(command)
                         await rcon.send(command)

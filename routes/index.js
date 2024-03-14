@@ -7,6 +7,7 @@ const BuyController = require('../controllers/BuyController')
 const PunishmentController = require('../controllers/PunishmentController')
 const HistoryController = require('../controllers/HistoryController')
 const util = require('minecraft-server-util')
+const {Rcon} = require("rcon-client");
 
 router.get('/products', ProductController.getAll);
 router.get('/products/:id', ProductController.getOne);
@@ -35,7 +36,17 @@ router.delete('/buys/:id', BuyController.delete)
 router.get('/punishments', PunishmentController.getAll);
 
 router.get('/history', HistoryController.getAll);
-router.post('/history', HistoryController.create);
+router.post('/history', HistoryController.create)
+
+router.get('/test', async (req,res,next) => {
+    const rcon = await Rcon.connect({
+        host: '202.181.188.208', port: 22744, password: 'sDc1Drl02ZDXNseTE76WJIE4wbAmv5sD'
+    })
+
+    await rcon.send('cmi broadcast !sdfjosdfd')
+
+    await rcon.end()
+});
 
 router.get('/test', (req, res, next) => {
     const options = {
