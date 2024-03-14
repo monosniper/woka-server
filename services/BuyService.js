@@ -1,9 +1,10 @@
 const Buy = require("../models/buy");
 const RCONService = require('./RCONService')
+const Product = require("../models/product");
 
 class BuyService {
     async getAll(options) {
-        return Buy.findAll(options);
+        return Buy.findAll({...options, include: [Product]});
     }
 
     async getOne(id) {
