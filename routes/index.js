@@ -43,7 +43,9 @@ router.get('/test', async (req,res,next) => {
         host: '202.181.188.208', port: 22744, password: 'sDc1Drl02ZDXNseTE76WJIE4wbAmv5sD'
     })
 
-    await rcon.send('cmi broadcast !sdfjosdfd')
+    await rcon.send('lp user SmileClock parent clear')
+    await rcon.send('lp user SmileClock parent clear')
+    await rcon.send('points give SmileClock 30')
 
     await rcon.end()
 });
