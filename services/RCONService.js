@@ -11,7 +11,7 @@ class RCONService {
 
             // rcon.run(this.makeCommand(product.rcon, name, count))
 
-            if(product.tag.isPrivilege) {
+            if(product.Tag.isPrivilege) {
                 const expiries = {
                     1: 'rcon_1',
                     3: 'rcon_3',
