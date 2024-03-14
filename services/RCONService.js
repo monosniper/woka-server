@@ -23,15 +23,14 @@ class RCONService {
         })
 
         if(!this.black_list.includes(name)) {
-            console.log('not includes')
-            console.log(products)
-
             products.forEach(async ({id, count, expiry}) => {
                 const product = await ProductService.getOne(id)
 
-                this.getCommands(this.makeCommand(product.rcon, name, count)).forEach(async command => {
-                    await rcon.send(command)
-                })
+                if(product.rcon) {
+                    this.getCommands(this.makeCommand(product.rcon, name, count)).forEach(async command => {
+                        await rcon.send(command)
+                    })
+                }
 
                 if(product.Tag.isPrivilege) {
                     const expiries = {
