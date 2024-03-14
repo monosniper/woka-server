@@ -1,17 +1,9 @@
 const Product = require('../models/product')
 const Tag = require("../models/tag");
 
-function shuffleArray(array) {
-    for (let i = array.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [array[i], array[j]] = [array[j], array[i]];
-    }
-    return array;
-}
-
 class ProductService {
     async getAll(options) {
-        return shuffleArray(Product.findAll(options));
+        return Product.findAll(options);
     }
 
     async getOne(id) {
