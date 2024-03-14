@@ -1,5 +1,6 @@
 const BuyService = require('../services/BuyService')
 const {Op} = require("sequelize");
+const BuyDto = require("../dtos/BuyDto");
 
 class BuyController {
     async getAll(req, res, next) {
@@ -41,7 +42,7 @@ class BuyController {
 
             res.set('X-Total-Count', buys.length)
 
-            return res.json(buys);
+            return res.json(buys.map(i => new BuyDto(i)));
         } catch (e) {
             next(e);
         }
