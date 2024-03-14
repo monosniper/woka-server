@@ -1,6 +1,14 @@
 const ProductService = require('../services/ProductService')
+import { Rcon } from "rcon-client"
+require('dotenv').config()
 
 class RCONService {
+    black_list = [
+        'all',
+        'alloffline',
+        'allonline',
+    ]
+
     makeCommand(command, name, count) {
         return command.replaceAll("%name%", name).replaceAll("%amount%", count)
     }
@@ -10,25 +18,33 @@ class RCONService {
     }
 
     async process(name, products) {
-        products.forEach(async ({id, count, expiry}) => {
-            const product = await ProductService.getOne(id)
-
-            this.getCommands(this.makeCommand(product.rcon, name, count)).forEach(command => {
-                // rcon.run(command)
-            })
-
-            if(product.Tag.isPrivilege) {
-                const expiries = {
-                    1: 'rcon_1',
-                    3: 'rcon_3',
-                    forever: 'rcon_forever',
-                }
-
-                this.getCommands(this.makeCommand(product[expiries[expiry]], name, count)).forEach(command => {
-                    // rcon.run(command)
-                })
-            }
+        const rcon = await Rcon.connect({
+            host: process.env.RCON_HOST, port: process.env.RCON_PORT, password: process.env.RCON_PASSWORD
         })
+
+        if(!this.black_list.includes(name)) {
+            products.forEach(async ({id, count, expiry}) => {
+                const product = await ProductService.getOne(id)
+
+                this.getCommands(this.makeCommand(product.rcon, name, count)).forEach(async command => {
+                    await rcon.send(command)
+                })
+
+                if(product.Tag.isPrivilege) {
+                    const expiries = {
+                        1: 'rcon_1',
+                        3: 'rcon_3',
+                        forever: 'rcon_forever',
+                    }
+
+                    this.getCommands(this.makeCommand(product[expiries[expiry]], name, count)).forEach(async command => {
+                        await rcon.send(command)
+                    })
+                }
+            })
+        }
+
+        await rcon.end()
     }
 }
 
