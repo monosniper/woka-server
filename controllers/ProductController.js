@@ -29,7 +29,7 @@ class ProductController {
                 options.order = [JSON.parse(req.query.sort)]
             }
             else {
-                options.order = literal('max(priority) DESC')
+                options.order = ['priority', 'ASC']
             }
 
             const products = await ProductService.getAll(options);
