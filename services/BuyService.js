@@ -5,7 +5,7 @@ const Product = require("../models/product");
 class BuyService {
     async getAll(options) {
         return Buy.findAll({...options, include: [{
-                as: 'Product',
+                association: 'Product',
                 include: ["Buy"]
             }]});
     }
