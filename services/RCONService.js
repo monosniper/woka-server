@@ -32,7 +32,7 @@ class RCONService {
 
         if(!this.black_list.includes(name)) {
             products.forEach(async ({id, count, expiry}) => {
-                const product = await ProductService.getOne(id)
+                const product = id === 'money' ? await ProductService.getMoney() : await ProductService.getOne(id)
                 const rcon = product.mode === 'GRIEF-M' ? rcon_grief : rcon_anarchy
 
                 if(product.rcon) {
