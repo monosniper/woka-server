@@ -15,7 +15,7 @@ util.queryBasic(process.env.RCON_HOST, +process.env.QUERY_PORT, options)
                 online: result.players.online
             })
         }).then(rs => {
-            console.log("Saved ANARCHY-M: " + data["ANARCHY-M"] + ", GRIEF-M: " + data["GRIEF-M"])
+            console.log("Saved: " + result.players.online)
         })
     })
     .catch((error) => console.error(error));
