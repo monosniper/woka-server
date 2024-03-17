@@ -3,7 +3,15 @@ const HistoryService = require('../services/HistoryService')
 class HistoryController {
     async getAll(req, res, next) {
         try {
-            const data = await HistoryService.getAll();
+            const options = {
+                // where: filters,
+            }
+
+            if (req.query.limit) {
+                options.limit = parseInt(req.query.limit)
+            }
+            
+            const data = await HistoryService.getAll(options);
 
             return res.json(data);
         } catch (e) {
