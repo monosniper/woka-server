@@ -24,6 +24,8 @@ Object.entries(hosts).forEach(([name, {ip, port}]) => {
         .catch((error) => console.error(error));
 })
 
+console.log(data)
+
 fetch("http://localhost:5000/api/history", {
     method: 'post',
     headers: {
