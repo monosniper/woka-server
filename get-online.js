@@ -16,12 +16,10 @@ const hosts = {
 
 const data = {}
 
-Object.entries(hosts).forEach(([name, {ip, port}]) => {
-    util.queryBasic(ip, +port, options)
-        .then((result) => {
-            data[name] = result.players.online
-        })
-        .catch((error) => console.error(error));
+Object.entries(hosts).forEach(async ([name, {ip, port}]) => {
+    const result = await util.queryBasic(ip, +port, options)
+
+    data[name] = result.players.online
 })
 
 console.log(data)
