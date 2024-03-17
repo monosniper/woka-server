@@ -16,5 +16,5 @@ const BuyProductThrough = BuyProduct.init({
     tableName: 'buy_products'
 });
 
-Buy.belongsToMany(Product, { through: BuyProductThrough, as: "BuyProduct" })
-Product.belongsToMany(Buy, { through: BuyProductThrough, as: "BuyProduct" })
+Buy.belongsToMany(Product, { through: BuyProductThrough, as: "Product" })
+Product.belongsToMany(Buy, { through: BuyProductThrough, as: "Buy" })
