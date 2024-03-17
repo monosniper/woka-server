@@ -5,11 +5,11 @@ const options = {enableSRV: true};
 
 const hosts = {
     'ANARCHY-M': {
-        ip: process.env.ANARCHY_HOST,
+        ip: process.env.RCON_HOST,
         port: process.env.ANARCHY_PORT,
     },
     'GRIEF-M': {
-        ip: process.env.GRIEF_HOST,
+        ip: process.env.RCON_HOST,
         port: process.env.GRIEF_PORT,
     },
 }

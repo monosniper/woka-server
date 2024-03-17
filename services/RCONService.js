@@ -18,13 +18,22 @@ class RCONService {
     }
 
     async process(name, products) {
-        const rcon = await Rcon.connect({
-            host: process.env.RCON_HOST, port: process.env.RCON_PORT, password: process.env.RCON_PASSWORD
+        const rcon_grief = await Rcon.connect({
+            host: process.env.RCON_HOST,
+            port: process.env.RCON_GRIEF_PORT,
+            password: process.env.RCON_GRIEF_PASSWORD
+        })
+
+        const rcon_anarchy = await Rcon.connect({
+            host: process.env.RCON_HOST,
+            port: process.env.RCON_ANARCHY_PORT,
+            password: process.env.RCON_ANARCHY_PASSWORD
         })
 
         if(!this.black_list.includes(name)) {
             products.forEach(async ({id, count, expiry}) => {
                 const product = await ProductService.getOne(id)
+                const rcon = product.mode === 'GRIEF-M' ? rcon_grief : rcon_anarchy
 
                 if(product.rcon) {
                     this.getCommands(this.makeCommand(product.rcon, name, count)).forEach(async command => {
