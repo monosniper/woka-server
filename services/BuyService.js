@@ -6,7 +6,7 @@ class BuyService {
     async getAll(options) {
         return Buy.findAll({...options, include: [{
                 model: Product,
-                include: ["BuyProduct"]
+                include: ["Buy"]
             }]});
     }
 
