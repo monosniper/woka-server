@@ -33,8 +33,8 @@ app.use(express.static('uploads'));
 
 app.use('/api', indexRouter);
 
-// sequelize.sync({ force: true })
-sequelize.sync({ force: false })
+sequelize.sync({ force: true })
+// sequelize.sync({ force: false })
     .then(() => {
         connection.connect(() => {
             app.listen(process.env.API_PORT, () => {

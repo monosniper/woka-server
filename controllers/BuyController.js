@@ -76,7 +76,7 @@ class BuyController {
                 if(id === 'money') {
                     const __product = await ProductService.getMoney()
 
-                    __product.Buy.count = count
+                    // __product.Buy.count = count
 
                     _products.push(__product)
                 } else _products.push(await ProductService.getOne(id))
