@@ -18,7 +18,7 @@ const data = {}
 
 Object.entries(hosts).forEach(async ([name, {ip, port}]) => {
     const result = await util.queryBasic(ip, +port, options)
-
+    console.log(result)
     data[name] = result.players.online
 })
 
