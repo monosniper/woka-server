@@ -21,6 +21,10 @@ const model = Tag.init({
         type: DataTypes.BOOLEAN,
         defaultValue: false,
     },
+    isAlone: {
+        type: DataTypes.BOOLEAN,
+        defaultValue: false,
+    },
     createdAt: {type: DATE, field: 'created_at'},
     updatedAt: {type: DATE, field: 'updated_at'},
 }, {

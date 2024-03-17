@@ -1,4 +1,5 @@
 const BuyService = require('../services/BuyService')
+const ProductService = require('../services/ProductService')
 const {Op} = require("sequelize");
 const BuyDto = require("../dtos/BuyDto");
 
@@ -69,7 +70,19 @@ class BuyController {
 
             const buy = await BuyService.create(data, products)
 
-            await buy.setProducts(products.map(({id}) => id))
+            const _products = []
+
+            products.forEach(async ({id, count}) => {
+                if(id === 'money') {
+                    const __product = await ProductService.getMoney()
+
+                    __product.BuyProduct.count = count
+
+                    _products.push(__product)
+                } else _products.push(await ProductService.getOne(id))
+            })
+
+            await buy.setProducts(_products)
 
             return res.json({url: "https://hightcore.org"})
         } catch (e) {

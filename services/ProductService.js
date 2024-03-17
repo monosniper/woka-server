@@ -30,6 +30,10 @@ class ProductService {
         return Product.findByPk(id, {include: ['Tag']});
     }
 
+    async getMoney() {
+        return Product.findOne({title: 'money'}, {include: ['Tag']});
+    }
+
     async create(data) {
         return await Product.create(data, {fields});
     }
