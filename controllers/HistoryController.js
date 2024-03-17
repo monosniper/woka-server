@@ -10,7 +10,7 @@ class HistoryController {
             if (req.query.limit) {
                 options.limit = parseInt(req.query.limit)
             }
-            
+
             const data = await HistoryService.getAll(options);
 
             return res.json(data);

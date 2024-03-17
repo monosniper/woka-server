@@ -30,7 +30,7 @@ router.put('/tags/:id', TagController.update);
 
 router.get('/buys', BuyController.getAll);
 router.get('/buys/:id', BuyController.getOne);
-router.post('/pay', BuyController.pay);
+// router.post('/pay', BuyController.pay);
 router.delete('/buys/:id', BuyController.delete)
 
 router.get('/punishments', PunishmentController.getAll);
