@@ -16,31 +16,21 @@ const hosts = {
 
 const data = {}
 
-Object.entries(hosts).forEach(async ([name, {ip, port}]) => {
-    const result = await util.queryBasic(ip, +port, options)
+Object.entries(hosts).forEach(([name, {ip, port}]) => {
+    util.queryBasic(ip, +port, options)
         .then((result) => {
-            data[name] = result.players.online
+            fetch("http://localhost:5000/api/history", {
+                method: 'post',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    online: {name, count: result.players.online}
+                })
+            }).then(rs => {
+                console.log("Saved ANARCHY-M: " + data["ANARCHY-M"] + ", GRIEF-M: " + data["GRIEF-M"])
+            })
         })
         .catch((error) => console.error(error));
-})
-
-console.log(data)
-
-while(Object.keys(data).length !== 2) {
-    setTimeout(() => {
-        console.log('Waiting')
-    }, 2000)
-}
-
-fetch("http://localhost:5000/api/history", {
-    method: 'post',
-    headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json'
-    },
-    body: JSON.stringify({
-        online: data
-    })
-}).then(rs => {
-    console.log("Saved ANARCHY-M: " + data["ANARCHY-M"] + ", GRIEF-M: " + data["GRIEF-M"])
 })
