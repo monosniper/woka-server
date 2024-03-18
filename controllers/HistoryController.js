@@ -14,7 +14,7 @@ class HistoryController {
 
             const data = await HistoryService.getAll(options);
 
-            return res.json(data);
+            return res.json(data.reverse());
         } catch (e) {
             next(e);
         }
