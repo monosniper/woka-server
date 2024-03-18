@@ -4,6 +4,7 @@ class HistoryController {
     async getAll(req, res, next) {
         try {
             const options = {
+                order: [['created_at', 'desc']]
                 // where: filters,
             }
 
