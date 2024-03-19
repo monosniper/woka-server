@@ -2,22 +2,29 @@ require('dotenv').config()
 const cron = require('node-cron');
 const BuyService = require("./services/BuyService");
 const RCONService = require("./services/RCONService");
+const crypto = require("crypto");
 
 cron.schedule('*/5 * * * *', function() {
     fetch("http://localhost:5000/api/buys?completed=false")
         .then(rs => rs.json())
         .then(orders => {
             orders.forEach(({id: orderId}) => {
+                const body = {
+                    shopId: process.env.LAVA_SHOP_ID,
+                    orderId,
+                }
+                const signature = crypto.createHmac("sha256", process.env.LAVA_SECRET_KEY)
+                    .update(JSON.stringify(body))
+                    .digest("hex");
+
                 fetch("https://api.lava.ru/business/invoice/status", {
                     method: 'post',
                     headers: {
                         'Accept': 'application/json',
-                        'Content-Type': 'application/json'
+                        'Content-Type': 'application/json',
+                        'Signature': signature
                     },
-                    body: JSON.stringify({
-                        shopId: process.env.LAVA_SHOP_ID,
-                        orderId,
-                    })
+                    body: JSON.stringify(body)
                 })
                     .then(rs => rs.json())
                     .then(async rs => {

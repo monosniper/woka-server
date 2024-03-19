@@ -5,6 +5,7 @@ module.exports = class BuyDto {
     promo;
     Products;
     ProductIds;
+    isCompleted;
     created_at;
 
     constructor(model) {
