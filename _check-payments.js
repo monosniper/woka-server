@@ -4,7 +4,7 @@ const BuyService = require("./services/BuyService");
 const RCONService = require("./services/RCONService");
 const crypto = require("crypto");
 
-fetch("http://localhost:5000/api/buys?isCompleted=false")
+fetch("https://server.woka.fun/api/buys?isCompleted=false")
     .then(rs => rs.json())
     .then(orders => {
         orders.forEach(({id: orderId}) => {
