@@ -22,8 +22,8 @@ class BuyController {
                 }
             }
 
-            if (req.query.completed) {
-                filters.completed = req.query.completed
+            if (req.query.isCompleted) {
+                filters.isCompleted = req.query.isCompleted
             }
 
             const options = {

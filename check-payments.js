@@ -5,7 +5,7 @@ const RCONService = require("./services/RCONService");
 const crypto = require("crypto");
 
 cron.schedule('*/5 * * * *', function() {
-    fetch("http://localhost:5000/api/buys?completed=false")
+    fetch("http://localhost:5000/api/buys?isCompleted=false")
         .then(rs => rs.json())
         .then(orders => {
             orders.forEach(({id: orderId}) => {
