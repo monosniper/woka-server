@@ -24,6 +24,7 @@ class TagService {
                 'icon',
                 'isPrivilege',
                 'isAlone',
+                'isHidden',
             ]
         });
 
