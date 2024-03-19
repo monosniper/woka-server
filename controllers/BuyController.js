@@ -2,6 +2,7 @@ const BuyService = require('../services/BuyService')
 const ProductService = require('../services/ProductService')
 const {Op} = require("sequelize");
 const BuyDto = require("../dtos/BuyDto");
+const crypto = require("crypto");
 
 class BuyController {
     async getAll(req, res, next) {
