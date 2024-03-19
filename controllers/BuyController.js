@@ -91,7 +91,7 @@ class BuyController {
                 .update(JSON.stringify(body))
                 .digest("hex");
 
-            const rs = await fetch("https://api.lava.ru/business/invoice/create", {
+            const rq = await fetch("https://api.lava.ru/business/invoice/create", {
                 method: "POST",
                 headers: {
                     "Accept": "application/json",
@@ -100,6 +100,7 @@ class BuyController {
                 },
                 body: JSON.stringify(body)
             })
+            const rs = await rq.json();
 
             console.log(rs)
 
