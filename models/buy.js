@@ -24,6 +24,10 @@ const model = Buy.init({
     amount: {
         type: DataTypes.INTEGER,
     },
+    isCompleted: {
+        type: DataTypes.BOOLEAN,
+        defaultValue: false,
+    },
     createdAt: {type: DATE, field: 'created_at'},
     updatedAt: {type: DATE, field: 'updated_at'},
 }, {

@@ -26,6 +26,7 @@ cron.schedule('*/5 * * * *', function() {
                                 console.log("Order ID: " + orderId + " - Status - success")
                                 console.log("Run RCON commands")
                                 const buy = await BuyService.getOne(orderId)
+                                await buy.update({isCompleted: true})
                                 await RCONService.process(buy.name, buy.Products)
                             }
                         }
