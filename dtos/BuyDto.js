@@ -15,6 +15,7 @@ module.exports = class BuyDto {
         this.promo = model.promo;
         this.Products = model.Products;
         this.ProductIds = model.Products.map(({id}) => id);
+        this.isCompleted = model.isCompleted;
         this.created_at = model.createdAt;
     }
 }
