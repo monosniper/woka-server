@@ -85,6 +85,8 @@ class BuyController {
                 sum: amount,
                 orderId: buy.id,
                 shopId: process.env.LAVA_SHOP_ID,
+
+                expire: 1
             };
 
             const signature = crypto.createHmac("sha256", process.env.LAVA_SECRET_KEY)
@@ -102,9 +104,9 @@ class BuyController {
             })
             const rs = await rq.json();
 
-            console.log(rs)
-
-            return res.json({url: "https://hightcore.org"})
+            if(rs.status === 200) {
+                return res.json({url: rs.data.url})
+            } else return res.json({url: "https://woka.fun?success=false"})
         } catch (e) {
             next(e);
         }
