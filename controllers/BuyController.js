@@ -62,11 +62,7 @@ class BuyController {
         try {
             const {name, email, promo, amount, products} = req.body
 
-            const data = {name, email, amount}
-
-            if(promo) {
-                data.promo = promo
-            }
+            const data = {name, email, amount, promo}
 
             const buy = await BuyService.create(data, products)
 
@@ -83,6 +79,28 @@ class BuyController {
             })
 
             await buy.setProducts(_products)
+
+            const body = {
+                sum: amount,
+                orderId: buy.id,
+                shopId: process.env.LAVA_SHOP_ID,
+            };
+
+            const signature = crypto.createHmac("sha256", process.env.LAVA_SECRET_KEY)
+                .update(JSON.stringify(body))
+                .digest("hex");
+
+            const rs = await fetch("https://api.lava.ru/business/invoice/create", {
+                method: "POST",
+                headers: {
+                    "Accept": "application/json",
+                    "Content-Type": "application/json",
+                    "Signature": signature
+                },
+                body: JSON.stringify(body)
+            })
+
+            console.log(rs)
 
             return res.json({url: "https://hightcore.org"})
         } catch (e) {
