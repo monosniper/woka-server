@@ -12,7 +12,7 @@ class BuyService {
     }
 
     async create(data, products) {
-        await RCONService.process(data.name, products)
+        // await RCONService.process(data.name, products)
 
         return Buy.create(data);
     }
