@@ -25,6 +25,8 @@ class TagController {
 
             if(req.query.sort) {
                 options.order = [JSON.parse(req.query.sort)]
+            } else {
+                options.order = [['created_at', 'desc']]
             }
 
             const tags = await TagService.getAll(options);
