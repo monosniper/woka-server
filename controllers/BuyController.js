@@ -22,6 +22,10 @@ class BuyController {
                 }
             }
 
+            if (req.query.completed) {
+                filters.completed = req.query.completed
+            }
+
             const options = {
                 where: filters,
             }
