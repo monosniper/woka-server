@@ -31,7 +31,7 @@ class ProductService {
     }
 
     async getMoney() {
-        return Product.findOne({title: 'money'}, {include: ['Tag']});
+        return Product.findOne({where: {title: 'money'}}, {include: ['Tag']});
     }
 
     async create(data) {

@@ -86,7 +86,8 @@ class BuyController {
                 orderId: buy.id,
                 shopId: process.env.LAVA_SHOP_ID,
 
-                expire: 1
+                expire: 1,
+                hookUrl: "https://server.woka.fun/api/callback"
             };
 
             const signature = crypto.createHmac("sha256", process.env.LAVA_SECRET_KEY)
