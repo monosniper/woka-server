@@ -5,9 +5,15 @@ const RCONService = require("./services/RCONService");
 const crypto = require("crypto");
 
 cron.schedule('* * * * *', function() {
-    fetch("https://server.woka.fun/api/buys?isCompleted=false")
+    fetch("https://server.woka.fun/api/buys?isCompleted=false", {
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        },
+    })
         .then(rs => rs.json())
         .then(orders => {
+            console.log(orders)
             orders.forEach(({id: orderId}) => {
                 const body = {
                     shopId: process.env.LAVA_SHOP_ID,

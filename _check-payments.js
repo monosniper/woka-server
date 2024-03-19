@@ -4,7 +4,12 @@ const BuyService = require("./services/BuyService");
 const RCONService = require("./services/RCONService");
 const crypto = require("crypto");
 
-fetch("https://server.woka.fun/api/buys?isCompleted=false")
+fetch("https://server.woka.fun/api/buys?isCompleted=false", {
+    headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+    },
+})
     .then(rs => rs.json())
     .then(orders => {
         orders.forEach(({id: orderId}) => {
@@ -16,16 +21,19 @@ fetch("https://server.woka.fun/api/buys?isCompleted=false")
                 .update(JSON.stringify(body))
                 .digest("hex");
 
+            body.signature = signature
+
             fetch("https://api.lava.ru/business/invoice/status", {
                 method: 'post',
                 headers: {
                     'Accept': 'application/json',
                     'Content-Type': 'application/json',
-                    'Signature': signature
+                    // 'Signature': signature
                 },
                 body: JSON.stringify(body)
             })
-                .then(rs => rs.json())
+                .then(rs => rs.text())
+                .then(rs => console.log(rs))
                 .then(async rs => {
                     if(rs.status === 200) {
                         if(rs.data.status === 'success') {
