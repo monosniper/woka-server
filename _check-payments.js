@@ -32,7 +32,7 @@ fetch("https://server.woka.fun/api/buys?isCompleted=false", {
                 },
                 body: JSON.stringify(body)
             })
-                .then(rs => rs.text())
+                .then(rs => rs.json())
                 .then(rs => console.log(rs))
                 .then(async rs => {
                     if(rs.status === 200) {
