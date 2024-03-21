@@ -80,7 +80,7 @@ class BuyController {
                     // __product.Buy.count = count
 
                     _products.push(__product)
-                } else _products.push(await ProductService.getOne(id))
+                } else _products.push((await ProductService.getOne(id)))
             })
 
             await buy.setProducts(_products)
@@ -89,8 +89,7 @@ class BuyController {
                 sum: amount,
                 orderId: buy.id,
                 shopId: process.env.LAVA_SHOP_ID,
-
-                expire: 1,
+                expire: 180,
                 hookUrl: process.env.CALLBACK_URL
             };
 
