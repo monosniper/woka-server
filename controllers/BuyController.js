@@ -38,6 +38,11 @@ class BuyController {
                 options.limit = parseInt(req.query.limit)
             }
 
+            if (req.query.range) {
+                options.offset = JSON.parse(req.query.range)[0]
+                options.limit = JSON.parse(req.query.range)[1]
+            }
+
             const buys = await BuyService.getAll(options);
 
             if (req.headers.range) {
@@ -72,7 +77,7 @@ class BuyController {
             const buy = await BuyService.create(data, products)
 
             const _products = []
-
+            console.log(products)
             products.forEach(async ({id, count}) => {
                 if(id === 'money') {
                     const __product = await ProductService.getMoney()
@@ -82,7 +87,7 @@ class BuyController {
                     _products.push(__product)
                 } else _products.push((await ProductService.getOne(id)))
             })
-
+            console.log(_products)
             await buy.setProducts(_products)
 
             const body = {
