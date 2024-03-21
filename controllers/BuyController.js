@@ -32,6 +32,8 @@ class BuyController {
 
             if (req.query.sort) {
                 options.order = [JSON.parse(req.query.sort)]
+            } else {
+                options.order = [['created_at', 'desc']]
             }
 
             if (req.query.limit) {
@@ -79,7 +81,7 @@ class BuyController {
 
             // const _products = []
             // console.log(products)
-            
+
             const money_id = await ProductService.getMoney()
 
             // products.forEach(async ({id, count}) => {
