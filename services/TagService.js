@@ -24,7 +24,7 @@ class TagService {
                 'icon',
                 'isPrivilege',
                 'isAlone',
-                'created_at',
+                'createdAt',
                 'isHidden',
             ]
         });
