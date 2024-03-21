@@ -20,17 +20,17 @@ class PunishmentController {
 
                 names = rows
 
-                return connection.query('SELECT * FROM litebans_bans', (err, rows, fields) => {
+                return connection.query('SELECT * FROM litebans_bans ORDER BY time DESC', (err, rows, fields) => {
                     if (err) throw err
 
                     bans = mapNames(rows)
 
-                    return connection.query('SELECT * FROM litebans_mutes', (err, rows, fields) => {
+                    return connection.query('SELECT * FROM litebans_mutes ORDER BY time DESC', (err, rows, fields) => {
                         if (err) throw err
 
                         mutes = mapNames(rows)
 
-                        return connection.query('SELECT * FROM litebans_kicks', (err, rows, fields) => {
+                        return connection.query('SELECT * FROM litebans_kicks ORDER BY time DESC', (err, rows, fields) => {
                             if (err) throw err
 
                             kicks = mapNames(rows)

@@ -44,6 +44,7 @@ class BuyController {
             }
 
             const buys = await BuyService.getAll(options);
+            const total_count = await BuyService.getCount();
 
             if (req.headers.range) {
                 const range = req.headers.range.replace('=', ' ') + '/' + buys.length;
@@ -51,7 +52,7 @@ class BuyController {
                 res.set('Content-Range', range)
             }
 
-            res.set('X-Total-Count', buys.length)
+            res.set('X-Total-Count', total_count)
 
             return res.json(buys.map(i => new BuyDto(i)));
         } catch (e) {
@@ -76,19 +77,22 @@ class BuyController {
 
             const buy = await BuyService.create(data, products)
 
-            const _products = []
-            console.log(products)
-            products.forEach(async ({id, count}) => {
-                if(id === 'money') {
-                    const __product = await ProductService.getMoney()
+            // const _products = []
+            // console.log(products)
+            
+            const money_id = await ProductService.getMoney()
 
-                    // __product.Buy.count = count
-
-                    _products.push(__product)
-                } else _products.push((await ProductService.getOne(id)))
-            })
-            console.log(_products)
-            await buy.setProducts(_products)
+            // products.forEach(async ({id, count}) => {
+            //     if(id === 'money') {
+            //         const __product = await ProductService.getMoney()
+            //
+            //         // __product.Buy.count = count
+            //
+            //         _products.push(__product)
+            //     } else _products.push((await ProductService.getOne(id)))
+            // })
+            // console.log(_products)
+            await buy.setProducts(products.map(({id}) => id === 'money' ? money_id : id))
 
             const body = {
                 sum: amount,

@@ -20,6 +20,10 @@ class BuyService {
     async delete(id) {
         return Buy.destroy({where: {id}});
     }
+
+    async getCount() {
+        return Buy.count();
+    }
 }
 
 module.exports = new BuyService();
