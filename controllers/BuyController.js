@@ -4,8 +4,7 @@ const {Op} = require("sequelize");
 const BuyDto = require("../dtos/BuyDto");
 const crypto = require("crypto");
 const { v4: uuidv4 } = require("uuid");
-const { createHash } = require('crypto');
-const {sha256} = require("js-sha256");
+const freekassa = require('@alex-kondakov/freekassa')
 
 class BuyController {
     async getAll(req, res, next) {
@@ -118,17 +117,32 @@ class BuyController {
                 try {
                     const ip = req.headers['x-forwarded-for'].split(", ")[0]
 
-                    const body = {
-                        amount,
-                        currency: "RUB",
-                        nonce: uuidv4(),
-                        paymentId: buy.id + '_' + uuidv4(),
-                        shopId: process.env.FREEKASSA_SHOP_ID,
-                        email,
-                        ip,
-                    };
+                    freekassa.init()
 
-                    const data = Object.entries(body).sort(([keyA], [keyB]) => keyA.localeCompare(keyB))
+                    freekassa.secret1 = process.env.FREEKASSA_SECRET_1
+                    freekassa.secret2 = process.env.FREEKASSA_SECRET_2
+                    freekassa.shopId = process.env.FREEKASSA_SHOP_ID
+                    freekassa.paymentId = buy.id + '_' + uuidv4()
+                    freekassa.amount = amount
+                    freekassa.email = email
+                    freekassa.ip = ip
+                    freekassa.currency = 'RUB'
+
+                    freekassa.sign();
+
+                    const rq = await freekassa.orders()
+
+                    // const body = {
+                    //     amount,
+                    //     currency: "RUB",
+                    //     nonce: uuidv4(),
+                    //     paymentId: buy.id + '_' + uuidv4(),
+                    //     shopId: process.env.FREEKASSA_SHOP_ID,
+                    //     email,
+                    //     ip,
+                    // };
+
+                    // const data = Object.entries(body).sort(([keyA], [keyB]) => keyA.localeCompare(keyB))
                     // const hash = createHash('sha256')
                     // hash.write(data.join('|'))
                     // hash.update(process.env.FREEKASSA_KEY);
@@ -137,27 +151,28 @@ class BuyController {
                     // hash.update(data.join('|'));
                     // hash.hex()
 
-                    let hmac = crypto.createHmac("sha256", process.env.FREEKASSA_KEY);
-                    let signed = hmac.update(data.join('|')).digest("hex").toString();
+                    // let hmac = crypto.createHmac("sha256", process.env.FREEKASSA_KEY);
+                    // let signed = hmac.update(data.join('|')).digest("hex").toString();
 
-                    const signature = signed;
+                    // const signature = signed;
 
-                    body.signature = signature
+                    // body.signature = signature
 
-                    console.log(body)
+                    // console.log(body)
 
-                    const rq = await fetch("https://api.freekassa.ru/v1/orders/create", {
-                        method: "POST",
-                        headers: {
-                            "Accept": "application/json",
-                            "Content-Type": "application/json",
-                        },
-                        body: JSON.stringify(body)
-                    })
-                    const rs = await rq.json();
-                    console.log(rs)
-                    result.success = rs.status === 200 && rs.data.type === 'success'
-                    result.body = {url: rs.data.location}
+                    // const rq = await fetch("https://api.freekassa.ru/v1/orders/create", {
+                    //     method: "POST",
+                    //     headers: {
+                    //         "Accept": "application/json",
+                    //         "Content-Type": "application/json",
+                    //     },
+                    //     body: JSON.stringify(body)
+                    // })
+                    // const rs = await rq.json();
+                    console.log(rq)
+                    // result.success = rs.status === 200 && rs.data.type === 'success'
+                    // result.body = {url: rs.data.location}
+                    result.success = false
                 } catch (e) {
                     console.error("Cant get IP", req.headers)
                     result.success = false
