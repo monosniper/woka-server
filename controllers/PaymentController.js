@@ -16,7 +16,7 @@ class PaymentController {
             console.log(req.body)
             if(authorization === signature) {
                 if(status === 'success') {
-                    const buy = await BuyService.getOne(order_id)
+                    const buy = await BuyService.getOne(order_id.split("_")[0])
                     buy.isCompleted = true
                     await buy.save()
                     const products = await buy.products

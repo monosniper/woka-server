@@ -3,6 +3,7 @@ const ProductService = require('../services/ProductService')
 const {Op} = require("sequelize");
 const BuyDto = require("../dtos/BuyDto");
 const crypto = require("crypto");
+import { v4 as uuidv4 } from 'uuid';
 
 class BuyController {
     async getAll(req, res, next) {
@@ -98,7 +99,7 @@ class BuyController {
 
             const body = {
                 sum: amount,
-                orderId: buy.id,
+                orderId: buy.id + '_' + uuidv4(),
                 shopId: process.env.LAVA_SHOP_ID,
                 expire: 180,
                 hookUrl: process.env.CALLBACK_URL
