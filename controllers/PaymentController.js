@@ -49,7 +49,7 @@ class PaymentController {
             const auth_data = [
                 process.env.FREEKASSA_SHOP_ID,
                 AMOUNT,
-                process.env.FREEKASSA_SECRET_1,
+                process.env.FREEKASSA_SECRET_2,
                 MERCHANT_ORDER_ID,
             ].join(":")
 
