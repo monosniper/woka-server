@@ -39,4 +39,9 @@ router.post('/history', HistoryController.create)
 
 router.post('/callback', PaymentController.callback)
 
+app.get('/test',function(req, res) {
+    const ipAddress = req.socket.remoteAddress;
+    res.send(ipAddress);
+});
+
 module.exports = router;

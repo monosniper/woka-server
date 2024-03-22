@@ -4,6 +4,7 @@ const {Op} = require("sequelize");
 const BuyDto = require("../dtos/BuyDto");
 const crypto = require("crypto");
 const { v4: uuidv4 } = require("uuid");
+const { createHash } = require('crypto');
 
 class BuyController {
     async getAll(req, res, next) {
@@ -74,55 +75,85 @@ class BuyController {
 
     async pay(req, res, next) {
         try {
-            const {name, email, promo, amount, products} = req.body
+            const {name, email, promo, amount, products, variant} = req.body
 
             const data = {name, email, amount, promo, products}
 
             const buy = await BuyService.create(data)
 
-            // const _products = []
-            // console.log(products)
-
             const money_id = await ProductService.getMoney()
 
-            // products.forEach(async ({id, count}) => {
-            //     if(id === 'money') {
-            //         const __product = await ProductService.getMoney()
-            //
-            //         // __product.Buy.count = count
-            //
-            //         _products.push(__product)
-            //     } else _products.push((await ProductService.getOne(id)))
-            // })
-            // console.log(_products)
             await buy.setProducts(products.map(({id}) => id === 'money' ? money_id : id))
 
-            const body = {
-                sum: amount,
-                orderId: buy.id + '_' + uuidv4(),
-                shopId: process.env.LAVA_SHOP_ID,
-                expire: 180,
-                hookUrl: process.env.CALLBACK_URL
-            };
+            const result = {}
 
-            const signature = crypto.createHmac("sha256", process.env.LAVA_SECRET_KEY)
-                .update(JSON.stringify(body))
-                .digest("hex");
+            if (variant === 'lava') {
+                const body = {
+                    sum: amount,
+                    orderId: buy.id + '_' + uuidv4(),
+                    shopId: process.env.LAVA_SHOP_ID,
+                    expire: 180,
+                    hookUrl: process.env.CALLBACK_URL
+                };
 
-            const rq = await fetch("https://api.lava.ru/business/invoice/create", {
-                method: "POST",
-                headers: {
-                    "Accept": "application/json",
-                    "Content-Type": "application/json",
-                    "Signature": signature
-                },
-                body: JSON.stringify(body)
-            })
-            const rs = await rq.json();
-            console.log(rs)
-            if(rs.status === 200) {
-                return res.json({url: rs.data.url})
-            } else return res.json({url: "https://woka.fun?success=false"})
+                const signature = crypto.createHmac("sha256", process.env.LAVA_SECRET_KEY)
+                    .update(JSON.stringify(body))
+                    .digest("hex");
+
+                const rq = await fetch("https://api.lava.ru/business/invoice/create", {
+                    method: "POST",
+                    headers: {
+                        "Accept": "application/json",
+                        "Content-Type": "application/json",
+                        "Signature": signature
+                    },
+                    body: JSON.stringify(body)
+                })
+                const rs = await rq.json();
+
+                result.success = rs.status === 200
+                result.body = {url: rs.data.url}
+            } else if (variant === 'freekassa') {
+                // https://api.freekassa.ru/v1/
+
+                const body = {
+                    sum: amount,
+                    nonce: uuidv4(),
+                    paymentId: buy.id + '_' + uuidv4(),
+                    shopId: process.env.FREEKASSA_SHOP_ID,
+                    email,
+                    ip: req.ip,
+                    expire: 180,
+                    hookUrl: process.env.CALLBACK_URL
+                };
+
+                const data = Object.entries(body).sort(([keyA], [keyB]) => keyA.localeCompare(keyB))
+                const hash = createHash('sha256')
+
+                hash.write(data.join('|'))
+                hash.update(process.env.FREEKASSA_KEY);
+
+                const signature = hash.digest('hex');
+
+                body.signature = signature
+
+                const rq = await fetch("https://api.freekassa.ru/v1/orders/create", {
+                    method: "POST",
+                    headers: {
+                        "Accept": "application/json",
+                        "Content-Type": "application/json",
+                        "Signature": signature
+                    },
+                    body: JSON.stringify(body)
+                })
+                const rs = await rq.json();
+
+                result.success = rs.status === 200
+                result.body = {url: rs.data.url}
+            }
+
+            if(result.success) return res.json(result.body)
+            else return res.json({url: "https://woka.fun?success=false"})
         } catch (e) {
             next(e);
         }
