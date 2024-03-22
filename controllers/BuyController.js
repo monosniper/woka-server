@@ -5,6 +5,7 @@ const BuyDto = require("../dtos/BuyDto");
 const crypto = require("crypto");
 const { v4: uuidv4 } = require("uuid");
 const { createHash } = require('crypto');
+const {sha256} = require("js-sha256");
 
 class BuyController {
     async getAll(req, res, next) {
@@ -128,12 +129,17 @@ class BuyController {
                     };
 
                     const data = Object.entries(body).sort(([keyA], [keyB]) => keyA.localeCompare(keyB))
-                    const hash = createHash('sha256')
+                    // const hash = createHash('sha256')
+                    console.log(data)
+                    console.log(data.join('|'))
+                    // hash.write(data.join('|'))
+                    // hash.update(process.env.FREEKASSA_KEY);
 
-                    hash.write(data.join('|'))
-                    hash.update(process.env.FREEKASSA_KEY);
+                    const hash = sha256.hmac.create(process.env.FREEKASSA_KEY);
+                    hash.update(data.join('|'));
+                    hash.hex()
 
-                    const signature = hash.digest('hex');
+                    const signature = hash;
 
                     body.signature = signature
 
