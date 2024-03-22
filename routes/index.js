@@ -40,6 +40,7 @@ router.post('/history', HistoryController.create)
 router.post('/callback', PaymentController.callback)
 
 router.get('/test',function(req, res) {
+    console.log(req)
     const ipAddress = req.socket.remoteAddress;
     res.send(ipAddress);
 });
