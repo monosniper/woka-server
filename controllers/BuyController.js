@@ -176,7 +176,7 @@ class BuyController {
                     // result.body = {url: rs.data.location}
                     result.success = false
                 } catch (e) {
-                    console.error("Cant get IP", req.headers)
+                    console.error("Error ", e)
                     result.success = false
                 }
             }
