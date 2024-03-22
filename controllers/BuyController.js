@@ -130,16 +130,17 @@ class BuyController {
 
                     const data = Object.entries(body).sort(([keyA], [keyB]) => keyA.localeCompare(keyB))
                     // const hash = createHash('sha256')
-                    console.log(data)
-                    console.log(data.join('|'))
                     // hash.write(data.join('|'))
                     // hash.update(process.env.FREEKASSA_KEY);
 
-                    const hash = sha256.hmac.create(process.env.FREEKASSA_KEY);
-                    hash.update(data.join('|'));
-                    hash.hex()
+                    // const hash = sha256.hmac.create(process.env.FREEKASSA_KEY);
+                    // hash.update(data.join('|'));
+                    // hash.hex()
 
-                    const signature = hash;
+                    let hmac = crypto.createHmac("sha256", process.env.FREEKASSA_KEY);
+                    let signed = hmac.update(Buffer.from(data.join('|'), 'utf-8')).digest("hex");
+
+                    const signature = signed;
 
                     body.signature = signature
 
