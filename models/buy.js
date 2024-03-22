@@ -28,6 +28,9 @@ const model = Buy.init({
         type: DataTypes.BOOLEAN,
         defaultValue: false,
     },
+    products: {
+        type: DataTypes.JSON,
+    },
     createdAt: {type: DATE, field: 'created_at'},
     updatedAt: {type: DATE, field: 'updated_at'},
 }, {

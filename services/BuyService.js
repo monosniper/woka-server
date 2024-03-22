@@ -11,9 +11,7 @@ class BuyService {
         return Buy.findByPk(id);
     }
 
-    async create(data, products) {
-        // await RCONService.process(data.name, products)
-
+    async create(data) {
         return Buy.create(data);
     }
 

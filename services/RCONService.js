@@ -47,7 +47,7 @@ class RCONService {
                         '3': 'rcon_3',
                         'forever': 'rcon_forever',
                     }
-                    console.log(product, expiries[expiry], product[expiries[expiry]])
+                    console.log(product, expiry, expiries[expiry], product[expiries[expiry]])
                     this.getCommands(this.makeCommand(product[expiries[expiry]], name, count)).forEach(async command => {
                         await rcon.send(command)
                     })
