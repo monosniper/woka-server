@@ -37,6 +37,6 @@ router.get('/punishments', PunishmentController.getAll);
 router.get('/history', HistoryController.getAll);
 router.post('/history', HistoryController.create)
 
-router.post('/callback', PaymentController.callback)
+router.post('/callback/:variant', PaymentController.callback)
 
 module.exports = router;

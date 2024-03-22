@@ -131,52 +131,10 @@ class BuyController {
 
                     FK.sign();
 
-                    const rq = await FK.create()
-                    const rs = await FK.orders()
-                    console.log("HELLLOO")
-                    console.log(rq)
-                    console.log(rs)
-                    // const body = {
-                    //     amount,
-                    //     currency: "RUB",
-                    //     nonce: uuidv4(),
-                    //     paymentId: buy.id + '_' + uuidv4(),
-                    //     shopId: process.env.FREEKASSA_SHOP_ID,
-                    //     email,
-                    //     ip,
-                    // };
+                    const url = await FK.create()
 
-                    // const data = Object.entries(body).sort(([keyA], [keyB]) => keyA.localeCompare(keyB))
-                    // const hash = createHash('sha256')
-                    // hash.write(data.join('|'))
-                    // hash.update(process.env.FREEKASSA_KEY);
-
-                    // const hash = sha256.hmac.create(process.env.FREEKASSA_KEY);
-                    // hash.update(data.join('|'));
-                    // hash.hex()
-
-                    // let hmac = crypto.createHmac("sha256", process.env.FREEKASSA_KEY);
-                    // let signed = hmac.update(data.join('|')).digest("hex").toString();
-
-                    // const signature = signed;
-
-                    // body.signature = signature
-
-                    // console.log(body)
-
-                    // const rq = await fetch("https://api.freekassa.ru/v1/orders/create", {
-                    //     method: "POST",
-                    //     headers: {
-                    //         "Accept": "application/json",
-                    //         "Content-Type": "application/json",
-                    //     },
-                    //     body: JSON.stringify(body)
-                    // })
-                    // const rs = await rq.json();
-                    // console.log(rs)
-                    // result.success = rs.status === 200 && rs.data.type === 'success'
-                    // result.body = {url: rs.data.location}
-                    result.success = false
+                    result.body = {url}
+                    result.success = true
                 } catch (e) {
                     console.error("Error ", e)
                     result.success = false
