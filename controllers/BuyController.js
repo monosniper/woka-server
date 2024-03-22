@@ -119,6 +119,7 @@ class BuyController {
 
                     freekassa.init()
 
+                    freekassa.key  = process.env.FREEKASSA_KEY
                     freekassa.secret1 = process.env.FREEKASSA_SECRET_1
                     freekassa.secret2 = process.env.FREEKASSA_SECRET_2
                     freekassa.shopId = process.env.FREEKASSA_SHOP_ID
@@ -131,7 +132,8 @@ class BuyController {
                     freekassa.sign();
 
                     const rq = await freekassa.orders()
-
+                    console.log("HELLLOO")
+                    console.log(rq)
                     // const body = {
                     //     amount,
                     //     currency: "RUB",
@@ -169,7 +171,7 @@ class BuyController {
                     //     body: JSON.stringify(body)
                     // })
                     // const rs = await rq.json();
-                    console.log(rq)
+                    // console.log(rs)
                     // result.success = rs.status === 200 && rs.data.type === 'success'
                     // result.body = {url: rs.data.location}
                     result.success = false
