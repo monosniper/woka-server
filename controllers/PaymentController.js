@@ -40,12 +40,13 @@ class PaymentController {
                 '178.154.197.79',
                 '51.250.54.238',
             ]
+            console.log(req.headers)
+            // if(!whitelist.includes(req.headers['x-forwarded-from'].split(', ')[0]))
+            //     return res.json('poshel naxui');
+            // else
 
-            if(!whitelist.includes(req.headers['x-forwarded-from'].split(', ')[0]))
-                return res.json('poshel naxui');
-            else console.log(req.headers)
-            
             console.log('success')
+            res.json('YES')
         }
     }
 }
