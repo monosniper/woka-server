@@ -34,7 +34,9 @@ class RCONService {
             products.forEach(async ({id, count, expiry}) => {
                 const product = id === 'money' ? await ProductService.getMoney() : await ProductService.getOne(id)
                 const rcon = product.mode === 'GRIEF-M' ? rcon_grief : rcon_anarchy
-
+                const test = await ProductService.getMoney()
+                console.log('test', test)
+                console.log('product', product)
                 if(product.rcon) {
                     this.getCommands(this.makeCommand(product.rcon, name, count)).forEach(async command => {
                         await rcon.send(command)
