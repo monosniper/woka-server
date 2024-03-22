@@ -87,7 +87,7 @@ class ProductController {
         try {
             const product = await ProductService.update(req.params.id, req.body);
 
-            if(req.body.image) {
+            if(req.body.image && typeof req.body.image !== 'string') {
                 const fileName = await UploadService.save(req.body.image, 'products', product.id)
                 product.image = '/products/'+fileName;
                 await product.save()
