@@ -3,7 +3,7 @@ const ProductService = require('../services/ProductService')
 const {Op} = require("sequelize");
 const BuyDto = require("../dtos/BuyDto");
 const crypto = require("crypto");
-import { v4 as uuidv4 } from 'uuid';
+const { v4: uuidv4 } = require("uuid");
 
 class BuyController {
     async getAll(req, res, next) {
