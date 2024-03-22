@@ -4,7 +4,7 @@ const {Op} = require("sequelize");
 const BuyDto = require("../dtos/BuyDto");
 const crypto = require("crypto");
 const { v4: uuidv4 } = require("uuid");
-const freekassa = require('@alex-kondakov/freekassa')
+const freekassa = require('@alex-kondakov/freekassa').init()
 
 class BuyController {
     async getAll(req, res, next) {
@@ -116,8 +116,6 @@ class BuyController {
             } else if (variant === 'freekassa') {
                 try {
                     const ip = req.headers['x-forwarded-for'].split(", ")[0]
-
-                    freekassa.init()
 
                     freekassa.key  = process.env.FREEKASSA_KEY
                     freekassa.secret1 = process.env.FREEKASSA_SECRET_1
