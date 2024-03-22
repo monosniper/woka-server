@@ -131,9 +131,11 @@ class BuyController {
 
                     FK.sign();
 
-                    const rq = await FK.orders()
+                    const rq = await FK.create()
+                    const rs = await FK.orders()
                     console.log("HELLLOO")
                     console.log(rq)
+                    console.log(rs)
                     // const body = {
                     //     amount,
                     //     currency: "RUB",
