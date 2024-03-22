@@ -114,42 +114,45 @@ class BuyController {
                 result.success = rs.status === 200
                 result.body = {url: rs.data.url}
             } else if (variant === 'freekassa') {
-                // https://api.freekassa.ru/v1/
+                try {
+                    const ip = req.headers['x-forwarded-for'].split(", ")[0]
 
-                const body = {
-                    sum: amount,
-                    nonce: uuidv4(),
-                    paymentId: buy.id + '_' + uuidv4(),
-                    shopId: process.env.FREEKASSA_SHOP_ID,
-                    email,
-                    ip: req.ip,
-                    expire: 180,
-                    hookUrl: process.env.CALLBACK_URL
-                };
+                    const body = {
+                        amount,
+                        currency: "RUB",
+                        nonce: uuidv4(),
+                        paymentId: buy.id + '_' + uuidv4(),
+                        shopId: process.env.FREEKASSA_SHOP_ID,
+                        email,
+                        ip,
+                    };
 
-                const data = Object.entries(body).sort(([keyA], [keyB]) => keyA.localeCompare(keyB))
-                const hash = createHash('sha256')
+                    const data = Object.entries(body).sort(([keyA], [keyB]) => keyA.localeCompare(keyB))
+                    const hash = createHash('sha256')
 
-                hash.write(data.join('|'))
-                hash.update(process.env.FREEKASSA_KEY);
+                    hash.write(data.join('|'))
+                    hash.update(process.env.FREEKASSA_KEY);
 
-                const signature = hash.digest('hex');
+                    const signature = hash.digest('hex');
 
-                body.signature = signature
+                    body.signature = signature
 
-                const rq = await fetch("https://api.freekassa.ru/v1/orders/create", {
-                    method: "POST",
-                    headers: {
-                        "Accept": "application/json",
-                        "Content-Type": "application/json",
-                        "Signature": signature
-                    },
-                    body: JSON.stringify(body)
-                })
-                const rs = await rq.json();
+                    const rq = await fetch("https://api.freekassa.ru/v1/orders/create", {
+                        method: "POST",
+                        headers: {
+                            "Accept": "application/json",
+                            "Content-Type": "application/json",
+                        },
+                        body: JSON.stringify(body)
+                    })
+                    const rs = await rq.json();
 
-                result.success = rs.status === 200
-                result.body = {url: rs.data.url}
+                    result.success = rs.status === 200 && rs.data.type === 'success'
+                    result.body = {url: rs.data.location}
+                } catch (e) {
+                    console.error("Cant get IP", req)
+                    result.success = false
+                }
             }
 
             if(result.success) return res.json(result.body)

@@ -39,10 +39,4 @@ router.post('/history', HistoryController.create)
 
 router.post('/callback', PaymentController.callback)
 
-router.get('/test',function(req, res) {
-    console.log(req, req.headers['x-forwarded-for'].split(", ")[0])
-    const ipAddress = req.headers['x-forwarded-for'].split(", ")[0];
-    res.send(ipAddress);
-});
-
 module.exports = router;
