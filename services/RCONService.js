@@ -41,13 +41,13 @@ class RCONService {
                     })
                 }
 
-                if(product.Tag.isPrivilege) {
+                if(product.Tag?.isPrivilege) {
                     const expiries = {
                         '1': 'rcon_1',
                         '3': 'rcon_3',
                         'forever': 'rcon_forever',
                     }
-                    console.log(product, expiry, expiries[expiry], product[expiries[expiry]])
+
                     this.getCommands(this.makeCommand(product[expiries[expiry]], name, count)).forEach(async command => {
                         await rcon.send(command)
                     })
