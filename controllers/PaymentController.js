@@ -1,6 +1,7 @@
 const BuyService = require('../services/BuyService')
 const RCONService = require('../services/RCONService')
 const crypto = require("crypto");
+const md5 = require('md5');
 
 class PaymentController {
     async callback(req, res, next) {
@@ -33,20 +34,38 @@ class PaymentController {
                 next(e);
             }
         } else if(variant === 'freekassa') {
-            console.log(req.body)
             const whitelist = [
                 '168.119.157.136',
                 '168.119.60.227',
                 '178.154.197.79',
                 '51.250.54.238',
             ]
-            console.log(req.headers)
-            // if(!whitelist.includes(req.headers['x-forwarded-from'].split(', ')[0]))
-            //     return res.json('poshel naxui');
-            // else
 
-            console.log('success')
-            res.json('YES')
+            if(!whitelist.includes(req.headers['x-forwarded-for'].split(', ')[0]))
+                return res.json('poshel naxui');
+
+            const { AMOUNT, MERCHANT_ORDER_ID, SIGN } = req.body
+
+            const auth_data = [
+                process.env.FREEKASSA_SHOP_ID,
+                AMOUNT,
+                process.env.FREEKASSA_SECRET_1,
+                MERCHANT_ORDER_ID,
+            ].join(":")
+
+            const authorization = md5(auth_data)
+
+            if(authorization === SIGN) {
+                const buy = await BuyService.getOne(MERCHANT_ORDER_ID.split("_")[0])
+                buy.isCompleted = true
+                await buy.save()
+                const products = await buy.products
+                await RCONService.process(buy.name, products)
+                return res.json('YES');
+            } else {
+                console.log(req.body)
+                return res.json('NO');
+            }
         }
     }
 }
