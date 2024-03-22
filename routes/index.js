@@ -40,8 +40,8 @@ router.post('/history', HistoryController.create)
 router.post('/callback', PaymentController.callback)
 
 router.get('/test',function(req, res) {
-    console.log(req, req.headers['x-real-ip'])
-    const ipAddress = req.socket.remoteAddress;
+    console.log(req, req.headers['x-forwarded-for'][0])
+    const ipAddress = req.headers['x-forwarded-for'][0];
     res.send(ipAddress);
 });
 
