@@ -32,9 +32,9 @@ class PaymentController {
             const buy = await BuyService.getOne(order_id)
             buy.isCompleted = true
             await buy.save()
-            console.log(buy)
-            console.log(buy.getProducts())
-            await RCONService.process(buy.name, buy.getProducts())
+            const products = await buy.getProducts()
+            console.log(products)
+            await RCONService.process(buy.name,products)
         }
         console.log('ok')
         return res.json('ok');
