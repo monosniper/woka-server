@@ -146,7 +146,7 @@ class BuyController {
                         body: JSON.stringify(body)
                     })
                     const rs = await rq.json();
-
+                    console.log(rs)
                     result.success = rs.status === 200 && rs.data.type === 'success'
                     result.body = {url: rs.data.location}
                 } catch (e) {
@@ -156,7 +156,10 @@ class BuyController {
             }
 
             if(result.success) return res.json(result.body)
-            else return res.json({url: "https://woka.fun?success=false"})
+            else {
+                await BuyService.delete(buy.id)
+                return res.json({url: "https://woka.fun?success=false"})
+            }
         } catch (e) {
             next(e);
         }
