@@ -63,6 +63,7 @@ class PaymentController {
                 await RCONService.process(buy.name, products)
                 return res.json('YES');
             } else {
+                console.log(authorization, SIGN)
                 console.log(req.body)
                 return res.json('NO');
             }
