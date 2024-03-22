@@ -138,7 +138,7 @@ class BuyController {
                     // hash.hex()
 
                     let hmac = crypto.createHmac("sha256", process.env.FREEKASSA_KEY);
-                    let signed = hmac.update(Buffer.from(data.join('|'), 'utf-8')).digest("hex");
+                    let signed = hmac.update(data.join('|')).digest("hex").toString();
 
                     const signature = signed;
 
