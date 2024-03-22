@@ -118,7 +118,7 @@ class BuyController {
                 body: JSON.stringify(body)
             })
             const rs = await rq.json();
-
+            console.log(rs)
             if(rs.status === 200) {
                 return res.json({url: rs.data.url})
             } else return res.json({url: "https://woka.fun?success=false"})
