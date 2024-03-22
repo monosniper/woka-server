@@ -4,7 +4,7 @@ const {Op} = require("sequelize");
 const BuyDto = require("../dtos/BuyDto");
 const crypto = require("crypto");
 const { v4: uuidv4 } = require("uuid");
-const freekassa = require('@alex-kondakov/freekassa').init()
+const freekassa = require('@alex-kondakov/freekassa')
 
 class BuyController {
     async getAll(req, res, next) {
@@ -117,19 +117,21 @@ class BuyController {
                 try {
                     const ip = req.headers['x-forwarded-for'].split(", ")[0]
 
-                    freekassa.key  = process.env.FREEKASSA_KEY
-                    freekassa.secret1 = process.env.FREEKASSA_SECRET_1
-                    freekassa.secret2 = process.env.FREEKASSA_SECRET_2
-                    freekassa.shopId = process.env.FREEKASSA_SHOP_ID
-                    freekassa.paymentId = buy.id + '_' + uuidv4()
-                    freekassa.amount = amount
-                    freekassa.email = email
-                    freekassa.ip = ip
-                    freekassa.currency = 'RUB'
+                    const FK = freekassa.init()
 
-                    freekassa.sign();
+                    FK.key  = process.env.FREEKASSA_KEY
+                    FK.secret1 = process.env.FREEKASSA_SECRET_1
+                    FK.secret2 = process.env.FREEKASSA_SECRET_2
+                    FK.shopId = process.env.FREEKASSA_SHOP_ID
+                    FK.paymentId = buy.id + '_' + uuidv4()
+                    FK.amount = amount
+                    FK.email = email
+                    FK.ip = ip
+                    FK.currency = 'RUB'
 
-                    const rq = await freekassa.orders()
+                    FK.sign();
+
+                    const rq = await FK.orders()
                     console.log("HELLLOO")
                     console.log(rq)
                     // const body = {
