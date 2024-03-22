@@ -8,7 +8,7 @@ module.exports = class BuyDto {
     products;
     isCompleted;
     created_at;
-    
+
     constructor(model) {
         this.id = model.id;
         this.name = model.name;
