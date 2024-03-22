@@ -137,6 +137,8 @@ class BuyController {
 
                     body.signature = signature
 
+                    console.log(body)
+
                     const rq = await fetch("https://api.freekassa.ru/v1/orders/create", {
                         method: "POST",
                         headers: {
@@ -150,7 +152,7 @@ class BuyController {
                     result.success = rs.status === 200 && rs.data.type === 'success'
                     result.body = {url: rs.data.location}
                 } catch (e) {
-                    console.error("Cant get IP", req)
+                    console.error("Cant get IP", req.headers)
                     result.success = false
                 }
             }
