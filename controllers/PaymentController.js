@@ -27,7 +27,7 @@ class PaymentController {
             const signature = crypto.createHmac("sha256", process.env.LAVA_SECRET_KEY)
                 .update(JSON.stringify(req.body))
                 .digest("hex")
-            console.log(authorization, signature, authorization === signature)
+            console.log(authorization, signature, authorization === signature, req.headers)
             try {
                 if(authorization !== '') {
                     if(status === 'success') {
