@@ -147,7 +147,7 @@ class BuyController {
 
                     const body = {
                         amount,
-                        orderId,
+                        order_id: orderId,
                         merchant_id : process.env.AAIO_SHOP_ID,
                         currency,
                         desc: 'Шахзод лох',
