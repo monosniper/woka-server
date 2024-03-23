@@ -9,18 +9,7 @@ class PaymentController {
 
         console.log("WEBHOOOOOOOOK ")
         console.log(req.body)
-        // {
-        // 0|server   |   type: 1,
-        // 0|server   |   amount: '234.00',
-        // 0|server   |   status: 'success',
-        // 0|server   |   credited: '234.00',
-        // 0|server   |   order_id: '42_75b9e66d-95f4-46a6-a734-9b62679da910',
-        // 0|server   |   pay_time: '2024-03-23 11:01:51',
-        // 0|server   |   invoice_id: '1ad2b31d-319d-4e3d-ae77-baea5072d4d0',
-        // 0|server   |   pay_service: 'p2p_card',
-        // 0|server   |   custom_fields: null,
-        // 0|server   |   payer_details: null
-        // 0|server   | }
+
         if(variant === 'lava') {
             const {status, order_id} = req.body
             const authorization = req.headers.Authorization
@@ -103,24 +92,24 @@ class PaymentController {
                 amount,
                 currency,
                 process.env.AAIO_SECRET_2,
-                MERCHANT_ORDER_ID,
+                order_id,
             ].join(":")
 
-            const authorization = md5(auth_data)
-
-            if(authorization === SIGN) {
+            const authorization = crypto.createHash("sha256")
+                .update(auth_data)
+                .digest("hex")
+            console.log(authorization)
+            if(authorization === sign) {
                 const buy = await BuyService.getOne(buy_id)
                 buy.isCompleted = true
                 await buy.save()
                 const products = await buy.products
                 await RCONService.process(buy.name, products)
                 return res.json('YES');
-            } else {
-                console.log(authorization, SIGN)
-                console.log(req.body)
-                return res.json('NO');
             }
         }
+
+        return res.json('NO');
     }
 }
 
