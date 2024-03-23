@@ -150,7 +150,7 @@ class BuyController {
                         order_id: orderId,
                         merchant_id : process.env.AAIO_SHOP_ID,
                         currency,
-                        desc: 'Шахзод лох',
+                        desc: 'Оплата корзины',
                         email,
                     };
 
