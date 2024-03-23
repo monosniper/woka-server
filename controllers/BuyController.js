@@ -142,7 +142,7 @@ class BuyController {
             } else if (variant === 'aaio') {
                 try {
                     const currency = 'RUB'
-                    const orderId = buy.id + '_' + uuidv4()
+                    const orderId = buy.id + '_' + Math.random().toString(16).slice(2)
 
                     const body = {
                         amount,
