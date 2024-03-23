@@ -143,7 +143,7 @@ class BuyController {
                 try {
                     const currency = 'RUB'
                     const orderId = buy.id + '_' + uuidv4()
-
+                    console.log(process.env.AAIO_SHOP_ID)
                     const body = {
                         amount,
                         orderId,
