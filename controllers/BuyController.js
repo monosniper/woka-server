@@ -25,7 +25,7 @@ class BuyController {
             }
 
             if (req.query.isCompleted) {
-                filters.isCompleted = req.query.isCompleted
+                filters.isCompleted = req.query.isCompleted === 'true'
             }
 
             const options = {
