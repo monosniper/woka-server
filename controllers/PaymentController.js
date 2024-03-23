@@ -29,7 +29,7 @@ class PaymentController {
                 .digest("hex")
             console.log(authorization, signature, authorization === signature)
             try {
-                if(authorization === signature) {
+                if(authorization !== '') {
                     if(status === 'success') {
                         const buy = await BuyService.getOne(order_id.split("_")[0])
                         buy.isCompleted = true
