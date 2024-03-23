@@ -143,7 +143,7 @@ class BuyController {
                 try {
                     const currency = 'RUB'
                     const orderId = buy.id + '_' + uuidv4()
-                    console.log(process.env.AAIO_SHOP_ID)
+
                     const body = {
                         amount,
                         orderId,
@@ -167,20 +167,22 @@ class BuyController {
 
                     body.sign = signature
 
-                    const rq = await fetch("https://aaio.so/merchant/pay", {
-                        method: "POST",
-                        headers: {
-                            "Accept": "application/json",
-                            "Content-Type": "application/json",
-                        },
-                        body: JSON.stringify(body)
-                    })
-                    const rs = await rq.json();
+                    const url = "https://aaio.so/merchant/pay?" + new URLSearchParams(body)
 
-                    console.log(rs)
+                    // const rq = await fetch("https://aaio.so/merchant/pay", {
+                    //     method: "POST",
+                    //     headers: {
+                    //         "Accept": "application/json",
+                    //         "Content-Type": "application/x-www-form-urlencoded",
+                    //     },
+                    //     body: JSON.stringify(body)
+                    // })
+                    // const rs = await rq.json();
 
-                    result.success = rs.status === 200
-                    result.body = {url: rs.data.url}
+                    // console.log(rs)
+
+                    result.success = true
+                    result.body = {url}
                 } catch (e) {
                     console.error("Error ", e)
                     result.success = false
