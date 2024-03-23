@@ -29,17 +29,27 @@ class PaymentController {
                 .digest("hex")
             console.log(authorization, signature, authorization === signature, req.headers)
             try {
-                if(authorization !== '') {
-                    if(status === 'success') {
-                        const buy = await BuyService.getOne(order_id.split("_")[0])
-                        buy.isCompleted = true
-                        await buy.save()
-                        const products = await buy.products
-                        await RCONService.process(buy.name, products)
-                    }
-                    console.log('ok')
-                    return res.json('ok');
+                if(status === 'success') {
+                    const buy = await BuyService.getOne(order_id.split("_")[0])
+                    buy.isCompleted = true
+                    await buy.save()
+                    const products = await buy.products
+                    await RCONService.process(buy.name, products)
                 }
+                console.log('ok')
+                return res.json('ok');
+
+                // if(authorization === signature) {
+                //     if(status === 'success') {
+                //         const buy = await BuyService.getOne(order_id.split("_")[0])
+                //         buy.isCompleted = true
+                //         await buy.save()
+                //         const products = await buy.products
+                //         await RCONService.process(buy.name, products)
+                //     }
+                //     console.log('ok')
+                //     return res.json('ok');
+                // }
             } catch (e) {
                 next(e);
             }
