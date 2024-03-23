@@ -139,6 +139,52 @@ class BuyController {
                     console.error("Error ", e)
                     result.success = false
                 }
+            } else if (variant === 'aaio') {
+                try {
+                    const currency = 'RUB'
+                    const orderId = buy.id + '_' + uuidv4()
+
+                    const body = {
+                        amount,
+                        orderId,
+                        merchant_id : process.env.AAIO_SHOP_ID,
+                        currency,
+                        desc: 'Шахзод лох',
+                        email,
+                    };
+
+                    const auth_data = [
+                        process.env.AAIO_SHOP_ID,
+                        amount,
+                        currency,
+                        process.env.AAIO_SECRET_1,
+                        orderId,
+                    ].join(":")
+
+                    const signature = crypto.createHash("sha256")
+                        .update(auth_data)
+                        .digest("hex")
+
+                    body.sign = signature
+
+                    const rq = await fetch("https://aaio.so/merchant/pay", {
+                        method: "POST",
+                        headers: {
+                            "Accept": "application/json",
+                            "Content-Type": "application/json",
+                        },
+                        body: JSON.stringify(body)
+                    })
+                    const rs = await rq.json();
+
+                    console.log(rs)
+
+                    result.success = rs.status === 200
+                    result.body = {url: rs.data.url}
+                } catch (e) {
+                    console.error("Error ", e)
+                    result.success = false
+                }
             }
 
             if(result.success) return res.json(result.body)
